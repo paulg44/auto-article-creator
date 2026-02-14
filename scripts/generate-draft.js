@@ -1,5 +1,4 @@
 const fs = require("fs");
-const fetch = require("node-fetch");
 
 const FRESHDESK_FOLDER_ID = "205000025212";
 const AI_MODEL = "gpt-5-mini";
