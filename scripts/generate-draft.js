@@ -35,8 +35,8 @@ async function run() {
     // --- 2. EXTRACT NOTES (SIMPLE VERSION) ---
     // We reverted to the simple version to prevent infinite loops.
     // Make sure you only have ONE set of tags in your PR description!
-    const startTag = "";
-    const endTag = "";
+    const startTag = "## AI GENERATION START";
+    const endTag = "## AI GENERATION END";
     const startIndex = prBody.indexOf(startTag);
     const endIndex = prBody.indexOf(endTag);
 
