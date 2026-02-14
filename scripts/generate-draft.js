@@ -10,27 +10,27 @@ const prBody = eventData.pull_request.body || "";
 const prTitle = eventData.pull_request.title;
 
 // --- 2. EXTRACT NOTES ---
-const startTag = "";
-const endTag = "";
-const startIndex = prBody.indexOf(startTag);
-const endIndex = prBody.indexOf(endTag);
+// This regex looks for content between the tags globally /g
+const regex = /([\s\S]*?)/g;
+let match;
+let rawNotes = "";
 
-if (startIndex === -1 || endIndex === -1) {
-  console.log("Skipping: 'AUTO-ARTICLE' tags not found in PR body.");
+// Loop through ALL matches found in the text
+while ((match = regex.exec(prBody)) !== null) {
+  const content = match[1].trim();
+  // If we found a block that actually has text, use it!
+  if (content.length > 5) {
+    rawNotes = content;
+    break;
+  }
+}
+
+if (!rawNotes) {
+  console.log("Skipping: Found tags, but they were all empty.");
   process.exit(0);
 }
 
-// Get text between tags
-const rawNotes = prBody
-  .substring(startIndex + startTag.length, endIndex)
-  .trim();
-
-console.log(`DEBUG: I found tags, but between them I saw: "${rawNotes}"`);
-
-if (rawNotes.length < 10) {
-  console.log("Skipping: Notes section is empty.");
-  process.exit(0);
-}
+console.log(`DEBUG: Found valid notes: "${rawNotes.substring(0, 50)}..."`);
 
 // --- 3. DEFINE YOUR STYLE ---
 const SYSTEM_PROMPT = `
