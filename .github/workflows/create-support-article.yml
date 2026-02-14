@@ -1,0 +1,25 @@
+name: Auto-Generate Support Article
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  generate-draft:
+    # Run ONLY if merged AND labeled 'documentation'
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'documentation')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18" # Required for native 'fetch'
+
+      - name: Run Generator Script
+        env:
+          FRESHDESK_DOMAIN: ${{ secrets.FRESHDESK_DOMAIN }}
+          FRESHDESK_API_KEY: ${{ secrets.FRESHDESK_API_KEY }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+        run: node scripts/generate-draft.js
