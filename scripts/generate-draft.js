@@ -25,6 +25,8 @@ const rawNotes = prBody
   .substring(startIndex + startTag.length, endIndex)
   .trim();
 
+console.log(`DEBUG: I found tags, but between them I saw: "${rawNotes}"`);
+
 if (rawNotes.length < 10) {
   console.log("Skipping: Notes section is empty.");
   process.exit(0);
