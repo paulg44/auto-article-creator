@@ -3,7 +3,7 @@ const fs = require("fs");
 // --- CONFIGURATION ---
 const FRESHDESK_DOMAIN = process.env.FRESHDESK_DOMAIN;
 const FRESHDESK_API_KEY = process.env.FRESHDESK_API_KEY;
-const FRESHDESK_FOLDER_ID = "1234567890"; // <--- CHECK YOUR FOLDER ID
+const FRESHDESK_FOLDER_ID = "205000025212"; // <--- CHECK YOUR FOLDER ID
 const AI_API_KEY = process.env.AI_API_KEY;
 
 // --- SAFETY: TIMEOUT FUNCTION ---
@@ -108,7 +108,13 @@ async function run() {
       },
     );
 
-    if (!fdReq.ok) throw new Error(`Freshdesk Error: ${await fdReq.text()}`);
+    if (!fdReq.ok) {
+      const errText = await fdReq.text();
+      // DEBUG: Print the Status Code (404, 401, etc.)
+      throw new Error(
+        `Freshdesk Error [${fdReq.status} ${fdReq.statusText}]: ${errText}`,
+      );
+    }
 
     console.log("✅ DONE.");
   } catch (err) {
