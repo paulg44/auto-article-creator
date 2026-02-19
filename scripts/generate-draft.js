@@ -33,8 +33,6 @@ async function run() {
     const prTitle = eventData.pull_request.title;
 
     // --- 2. EXTRACT NOTES (SIMPLE VERSION) ---
-    // We reverted to the simple version to prevent infinite loops.
-    // Make sure you only have ONE set of tags in your PR description!
     const startTag = "## AI GENERATION START";
     const endTag = "## AI GENERATION END";
     const startIndex = prBody.indexOf(startTag);
@@ -110,7 +108,6 @@ async function run() {
 
     if (!fdReq.ok) {
       const errText = await fdReq.text();
-      // DEBUG: Print the Status Code (404, 401, etc.)
       throw new Error(
         `Freshdesk Error [${fdReq.status} ${fdReq.statusText}]: ${errText}`,
       );
