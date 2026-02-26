@@ -105,9 +105,6 @@ If information is missing, ask concise clarification questions before writing.`,
               role: "user",
               content: `Using the HearLink documentation rules provided, create a full Help Centre article.
 
-Feature description:
-{{PR_DESCRIPTION}}
-
 Only use the information provided in ${rawNotes}.
 Do not assume additional functionality.`,
             },
