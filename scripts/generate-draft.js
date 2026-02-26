@@ -1,5 +1,5 @@
 const fs = require("fs");
-const articleData = require("./article-data.json");
+const articleData = require("../articles.json");
 
 // --- CONFIGURATION ---
 const FRESHDESK_DOMAIN = process.env.FRESHDESK_DOMAIN;
