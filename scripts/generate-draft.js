@@ -33,8 +33,6 @@ async function run() {
     const prTitle = eventData.pull_request.title;
 
     // --- 2. EXTRACT NOTES (SIMPLE VERSION) ---
-    // We reverted to the simple version to prevent infinite loops.
-    // Make sure you only have ONE set of tags in your PR description!
     const startTag = "## AI GENERATION START";
     const endTag = "## AI GENERATION END";
     const startIndex = prBody.indexOf(startTag);
@@ -72,11 +70,46 @@ async function run() {
           messages: [
             {
               role: "system",
-              content: "You are a support writer. Output HTML only.",
+              content: `You are the offical HearLink documentation writer. Output HTML only. You must follow these non-negotiable rules: STYLE - Use UK English - No marketing fluff.
+- No emojis.
+- No speculation.
+- Do not invent functionality.
+- Do not add features not explicitly described.
+
+HELP CENTRE ARTICLE FORMAT
+Always structure full articles exactly like this:
+
+Title
+
+Short introductory paragraph explaining what the feature allows.
+
+Line break.
+
+"In this article we'll cover how to:" or 
+"In this article we'll cover:" followed by a clean bullet-style list (no numbered steps).
+
+Then clear section headings using this format:
+
+## Section Name
+
+Instructions written as direct actions.
+No numbered lists.
+Short, clean sentences.
+No over-explaining.
+
+End naturally. No summaries unless explicitly requested.
+
+If information is missing, ask concise clarification questions before writing.`,
             },
             {
               role: "user",
-              content: `Write a support article for: ${rawNotes}`,
+              content: `Using the HearLink documentation rules provided, create a full Help Centre article.
+
+Feature description:
+{{PR_DESCRIPTION}}
+
+Only use the information provided in ${rawNotes}.
+Do not assume additional functionality.`,
             },
           ],
         }),
@@ -110,7 +143,6 @@ async function run() {
 
     if (!fdReq.ok) {
       const errText = await fdReq.text();
-      // DEBUG: Print the Status Code (404, 401, etc.)
       throw new Error(
         `Freshdesk Error [${fdReq.status} ${fdReq.statusText}]: ${errText}`,
       );
