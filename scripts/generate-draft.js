@@ -1,4 +1,5 @@
 const fs = require("fs");
+const articleData = require("./article-data.json");
 
 // --- CONFIGURATION ---
 const FRESHDESK_DOMAIN = process.env.FRESHDESK_DOMAIN;
@@ -103,7 +104,7 @@ If information is missing, ask concise clarification questions before writing.`,
             },
             {
               role: "user",
-              content: `Using the HearLink documentation rules provided, create a full Help Centre article.
+            content: `Using the HearLink documentation rules provided and by reviewing these articles so you know how they should written: ${articleData.exampleArticles}. Write a full Help Centre article based ONLY on the PR description notes provided.
 
 Only use the information provided in ${rawNotes}.
 Do not assume additional functionality.`,
