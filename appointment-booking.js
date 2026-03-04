@@ -197,3 +197,27 @@ const AppointmentBooking = (() => {
 })();
 
 document.addEventListener('DOMContentLoaded', AppointmentBooking.init);
+
+const recentAppointments = [
+  { date: '2026-02-14', type: 'Hearing Test', clinic: 'Manchester Central' },
+  { date: '2026-01-10', type: 'Hearing Aid Fitting', clinic: 'Leeds North' },
+  { date: '2025-12-05', type: 'Follow-up Consultation', clinic: 'Liverpool South' },
+];
+
+const renderRecentAppointments = () => {
+  const container = document.createElement('div');
+  container.id = 'recentAppointments';
+  container.innerHTML = `
+    <h3>Your Recent Appointments</h3>
+    ${recentAppointments.map(a => `
+      <div class="recent-item">
+        <span>${a.date}</span>
+        <span>${a.type}</span>
+        <span>${a.clinic}</span>
+      </div>
+    `).join('')}
+  `;
+  document.body.appendChild(container);
+};
+
+renderRecentAppointments();
