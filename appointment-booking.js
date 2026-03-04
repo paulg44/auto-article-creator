@@ -244,3 +244,27 @@ clinicSelect.addEventListener('change', () => {
 
   clinicSelect.parentNode.appendChild(notice);
 });
+
+// --- APPOINTMENT CONFIRMATION SUMMARY ---
+submitBtn.addEventListener('click', () => {
+  const existing = document.getElementById('confirmationSummary');
+  if (existing) existing.remove();
+
+  const clinic = clinicSelect.options[clinicSelect.selectedIndex]?.text;
+  const type = document.getElementById('appointmentType').options[document.getElementById('appointmentType').selectedIndex]?.text;
+  const date = preferredDateInput.value;
+
+  if (!clinic || !type || !date || !selectedTimeSlot) return;
+
+  const summary = document.createElement('div');
+  summary.id = 'confirmationSummary';
+  summary.style.cssText = 'background: #f0f4f8; border-radius: 4px; padding: 12px; margin-top: 16px; font-size: 14px;';
+  summary.innerHTML = `
+    <strong>Appointment Summary</strong>
+    <p style="margin: 8px 0 0;">Clinic: ${clinic}</p>
+    <p style="margin: 4px 0 0;">Type: ${type}</p>
+    <p style="margin: 4px 0 0;">Date: ${date} at ${selectedTimeSlot}</p>
+  `;
+
+  submitBtn.parentNode.insertBefore(summary, submitBtn);
+});
