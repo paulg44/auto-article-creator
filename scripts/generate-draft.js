@@ -18,6 +18,20 @@ const IGNORED_FILES = [
   "test-data.md",
 ];
 
+const articleData = JSON.parse(readFileSync("articles.json", "utf8"));
+const articleExamples = articleData.articles;
+
+const getReadmeContext = () => {
+  try {
+    const readmePath = path.join(__dirname, "../../README.md");
+    const readmeContent = readFileSync(readmePath, 'utf8');
+    return readmeContent;
+  } catch (error) {
+    console.warn("⚠️ Could not read README.md file:", error.message);
+    return "";
+  }
+} 
+
 // --- SAFETY: TIMEOUT FUNCTION ---
 // This prevents the script from hanging forever
 const fetchWithTimeout = async (url, options, timeout = 15000) => {
@@ -82,6 +96,8 @@ console.log('Relevant files:', relevantFiles);
 
     const rawDiff = execFileSync('git', ['diff',`${baseSha}...${mergeSha}`, '--', ...relevantFiles]).toString();
 
+    const readmeContext = getReadmeContext();
+
     // --- 3. CALL AI ---
     console.log("📝 contacting AI (15s timeout)...");
 
@@ -131,7 +147,7 @@ If information is missing, ask concise clarification questions before writing.`,
             },
             {
               role: "user",
-            content: `Using the HearLink documentation rules provided and by reviewing these articles so you know how they should written: ${articleData.exampleArticles}. Write a full Help Centre article based ONLY on the PR description notes provided.
+            content: `Using the HearLink documentation rules provided, the information in ${readmeContext} and by reviewing these articles so you know how they should written: ${articleExamples}. Write a full Help Centre article based ONLY on the PR description notes provided.
 
 Only use the information provided in ${rawDiff}.
 Do not assume additional functionality.`,
