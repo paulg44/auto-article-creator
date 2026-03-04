@@ -45,6 +45,12 @@ async function run() {
       .trim()
       .split('\n').filter(Boolean)
 
+      console.log('Base ref:', baseRef);
+console.log('Head ref:', headRef);
+console.log('Changed files:', changedFiles);
+console.log('Relevant files:', relevantFiles);
+
+
     const relevantFiles = changedFiles.filter(
       (file) =>
         !IGNORED_FILES.some((pattern) => {
