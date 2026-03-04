@@ -1,5 +1,6 @@
 const fs = require("fs");
 const articleData = require("../articles.json");
+const { execSync, execFileSync } = require("child_process");
 
 // --- CONFIGURATION ---
 const FRESHDESK_DOMAIN = process.env.FRESHDESK_DOMAIN;
