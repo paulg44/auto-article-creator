@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { readFileSync } = fs;
 const articleData = require("../articles.json");
-const { execSync, execFileSync } = require("child_process");
+const { execFileSync } = require("child_process");
 
 // --- CONFIGURATION ---
 const FRESHDESK_DOMAIN = process.env.FRESHDESK_DOMAIN;
@@ -42,7 +42,7 @@ async function run() {
 
     console.log('Reading code changes from PR...');
 
-    const changedFiles = execSync('git', [ 'diff', '--name-only', `${baseSha}...${mergeSha}`])
+    const changedFiles = execFileSync('git', [ 'diff', '--name-only', `${baseSha}...${mergeSha}`])
       .toString()
       .trim()
       .split('\n').filter(Boolean)
@@ -61,8 +61,8 @@ async function run() {
         })
     );
 
-    console.log('Base ref:', baseRef);
-console.log('Head ref:', headRef);
+    console.log('Base ref:', baseSha);
+console.log('Head ref:', mergeSha);
 console.log('Changed files:', changedFiles);
 console.log('Relevant files:', relevantFiles);
 
