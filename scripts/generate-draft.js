@@ -35,14 +35,14 @@ async function run() {
     }
     const eventData = JSON.parse(readFileSync(eventPath, 'utf8'));
     const prTitle = eventData.pull_request.title;
-    const baseRef = eventData.pull_request.base.ref;
-    const headRef = eventData.pull_request.head.ref;
+    const baseSha = eventData.pull_request.base.sha;
+    const mergeSha = eventData.pull_request.head.sha;
 
     console.log('Event data:', JSON.stringify(eventData.pull_request, null, 2));
 
     console.log('Reading code changes from PR...');
 
-    const changedFiles = execSync(`git diff --name-only origin/${baseRef}...origin/${headRef}`)
+    const changedFiles = execSync('git', [ 'diff', '--name-only', `${baseSha}...${mergeSha}`])
       .toString()
       .trim()
       .split('\n').filter(Boolean)
@@ -71,7 +71,7 @@ console.log('Relevant files:', relevantFiles);
       return;
     }
 
-    const rawDiff = execFileSync('git', ['diff',`origin/${baseRef}...origin/${headRef}`, '--', ...relevantFiles]).toString();
+    const rawDiff = execFileSync('git', ['diff',`${baseSha}...${mergeSha}`, '--', ...relevantFiles]).toString();
 
     // --- 3. CALL AI ---
     console.log("📝 contacting AI (15s timeout)...");
