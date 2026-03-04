@@ -27,33 +27,41 @@ const fetchWithTimeout = async (url, options, timeout = 15000) => {
 
 async function run() {
   try {
-    // --- 1. GET PR DETAILS ---
     const eventPath = process.env.GITHUB_EVENT_PATH;
-    const eventData = JSON.parse(fs.readFileSync(eventPath, "utf8"));
-    const prBody = eventData.pull_request.body || "";
+    if (!eventPath) {
+      throw new Error('GITHUB_EVENT_PATH environment variable is not set');
+    }
+    const eventData = JSON.parse(readFileSync(eventPath, 'utf8'));
     const prTitle = eventData.pull_request.title;
+    const baseRef = eventData.pull_request.base.ref;
+    const headRef = eventData.pull_request.head.ref;
 
-    // --- 2. EXTRACT NOTES (SIMPLE VERSION) ---
-    const startTag = "## AI GENERATION START";
-    const endTag = "## AI GENERATION END";
-    const startIndex = prBody.indexOf(startTag);
-    const endIndex = prBody.indexOf(endTag);
+    console.log('Reading code changes from PR...');
 
-    if (startIndex === -1 || endIndex === -1) {
-      console.log("Skipping: Tags not found.");
-      process.exit(0);
+    const changedFiles = execSync(`git diff --name-only origin/${baseRef}...origin/${headRef}`)
+      .toString()
+      .trim()
+      .split('\n').filter(Boolean)
+
+    const relevantFiles = changedFiles.filter(
+      (file) =>
+        !IGNORED_FILES.some((pattern) => {
+          if (pattern.endsWith('/')) {
+            return file.startsWith(pattern);
+          }
+          if (pattern.startsWith('.')) {
+            return file.endsWith(pattern.slice(1));
+          }
+          return file === pattern;
+        })
+    );
+
+    if (relevantFiles.length === 0) {
+      console.log('No relevant code changes found. Exiting.');
+      return;
     }
 
-    const rawNotes = prBody
-      .substring(startIndex + startTag.length, endIndex)
-      .trim();
-
-    console.log(`DEBUG: Found notes length: ${rawNotes.length}`);
-
-    if (rawNotes.length < 5) {
-      console.log("Skipping: Notes are empty.");
-      process.exit(0);
-    }
+    const rawDiff = execFileSync('git', ['diff',`origin/${baseRef}...origin/${headRef}`, '--', ...relevantFiles]).toString();
 
     // --- 3. CALL AI ---
     console.log("📝 contacting AI (15s timeout)...");
