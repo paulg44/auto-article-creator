@@ -45,11 +45,6 @@ async function run() {
       .trim()
       .split('\n').filter(Boolean)
 
-      console.log('Base ref:', baseRef);
-console.log('Head ref:', headRef);
-console.log('Changed files:', changedFiles);
-console.log('Relevant files:', relevantFiles);
-
 
     const relevantFiles = changedFiles.filter(
       (file) =>
@@ -63,6 +58,11 @@ console.log('Relevant files:', relevantFiles);
           return file === pattern;
         })
     );
+
+    console.log('Base ref:', baseRef);
+console.log('Head ref:', headRef);
+console.log('Changed files:', changedFiles);
+console.log('Relevant files:', relevantFiles);
 
     if (relevantFiles.length === 0) {
       console.log('No relevant code changes found. Exiting.');
@@ -122,7 +122,7 @@ If information is missing, ask concise clarification questions before writing.`,
               role: "user",
             content: `Using the HearLink documentation rules provided and by reviewing these articles so you know how they should written: ${articleData.exampleArticles}. Write a full Help Centre article based ONLY on the PR description notes provided.
 
-Only use the information provided in ${rawNotes}.
+Only use the information provided in ${rawDiff}.
 Do not assume additional functionality.`,
             },
           ],
