@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HearLink - Book an Appointment</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #2c3e50; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 14px; }
+    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+    .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .time-slot { padding: 10px; border: 1px solid #ccc; border-radius: 4px; text-align: center; cursor: pointer; font-size: 14px; background: white; }
+    .time-slot.selected { background: #2c3e50; color: white; border-color: #2c3e50; }
+    .time-slot.unavailable { background: #f5f5f5; color: #aaa; cursor: not-allowed; }
+    button[type="submit"] { background: #2c3e50; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 8px; }
+    button[type="submit"]:hover { background: #34495e; }
+    .success-message { display: none; background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-top: 16px; }
+    .error-message { display: none; background: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-top: 16px; }
+    .section-title { font-size: 16px; font-weight: bold; margin: 24px 0 12px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+  <h1>Book an Appointment</h1>
+  <p>Select your preferred clinic, appointment type, and available time slot below.</p>
+
+  <form id="appointmentForm" novalidate>
+
+    <div class="section-title">Your Details</div>
+
+    <div class="form-group">
+      <label for="fullName">Full Name *</label>
+      <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" required />
+    </div>
+
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth *</label>
+      <input type="date" id="dateOfBirth" name="dateOfBirth" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number *</label>
+      <input type="tel" id="phone" name="phone" placeholder="07700 900000" required />
+    </div>
+
+    <div class="section-title">Appointment Details</div>
+
+    <div class="form-group">
+      <label for="clinic">Select Clinic *</label>
+      <select id="clinic" name="clinic" required>
+        <option value="">Select a clinic</option>
+        <option value="manchester">Manchester Central</option>
+        <option value="liverpool">Liverpool South</option>
+        <option value="leeds">Leeds North</option>
+        <option value="sheffield">Sheffield West</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="appointmentType">Appointment Type *</label>
+      <select id="appointmentType" name="appointmentType" required>
+        <option value="">Select a type</option>
+        <option value="hearing_test">Hearing Test</option>
+        <option value="hearing_aid_fitting">Hearing Aid Fitting</option>
+        <option value="hearing_aid_review">Hearing Aid Review</option>
+        <option value="follow_up">Follow-up Consultation</option>
+        <option value="wax_removal">Wax Removal</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="preferredDate">Preferred Date *</label>
+      <input type="date" id="preferredDate" name="preferredDate" required />
+    </div>
+
+    <div class="form-group">
+      <label>Available Time Slots *</label>
+      <div class="time-slots" id="timeSlots">
+        <button type="button" class="time-slot" data-time="09:00">09:00</button>
+        <button type="button" class="time-slot" data-time="09:30">09:30</button>
+        <button type="button" class="time-slot unavailable" data-time="10:00" disabled>10:00</button>
+        <button type="button" class="time-slot" data-time="10:30">10:30</button>
+        <button type="button" class="time-slot" data-time="11:00">11:00</button>
+        <button type="button" class="time-slot unavailable" data-time="11:30" disabled>11:30</button>
+        <button type="button" class="time-slot" data-time="13:00">13:00</button>
+        <button type="button" class="time-slot" data-time="13:30">13:30</button>
+        <button type="button" class="time-slot" data-time="14:00">14:00</button>
+        <button type="button" class="time-slot unavailable" data-time="14:30" disabled>14:30</button>
+        <button type="button" class="time-slot" data-time="15:00">15:00</button>
+        <button type="button" class="time-slot" data-time="15:30">15:30</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" name="notes" placeholder="Any additional information for your audiologist..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="newPatient" name="newPatient" />
+        I am a new patient
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="consentCheckbox" name="consent" required />
+        I consent to HearLink storing my details to manage this appointment. *
+      </label>
+    </div>
+
+    <button type="submit" id="submitBtn">Request Appointment</button>
+
+    <div class="success-message" id="successMsg">
+      Your appointment request has been received. You will receive a confirmation email within 2 working hours.
+    </div>
+    <div class="error-message" id="errorMsg">
+      Something went wrong. Please try again or call your clinic directly.
+    </div>
+
+  </form>
+
+  <script src="appointment-booking.js"></script>
+</body>
+</html>
