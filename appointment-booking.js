@@ -221,3 +221,26 @@ const renderRecentAppointments = () => {
 };
 
 renderRecentAppointments();
+
+// --- CLINIC OPENING HOURS ---
+const clinicHours = {
+  manchester: { open: '08:00', close: '18:00' },
+  liverpool: { open: '09:00', close: '17:00' },
+  leeds: { open: '08:30', close: '17:30' },
+  sheffield: { open: '09:00', close: '16:00' },
+};
+
+clinicSelect.addEventListener('change', () => {
+  const existing = document.getElementById('clinicHours');
+  if (existing) existing.remove();
+
+  const hours = clinicHours[clinicSelect.value];
+  if (!hours) return;
+
+  const notice = document.createElement('p');
+  notice.id = 'clinicHours';
+  notice.style.cssText = 'font-size: 13px; color: #555; margin-top: 4px;';
+  notice.textContent = `Opening hours: ${hours.open} – ${hours.close}`;
+
+  clinicSelect.parentNode.appendChild(notice);
+});
