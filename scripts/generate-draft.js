@@ -38,6 +38,8 @@ async function run() {
     const baseRef = eventData.pull_request.base.ref;
     const headRef = eventData.pull_request.head.ref;
 
+    console.log('Event data:', JSON.stringify(eventData.pull_request, null, 2));
+
     console.log('Reading code changes from PR...');
 
     const changedFiles = execSync(`git diff --name-only origin/${baseRef}...origin/${headRef}`)
