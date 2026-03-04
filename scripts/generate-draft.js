@@ -1,6 +1,5 @@
 const fs = require("fs");
 const { readFileSync } = fs;
-const articleData = require("../articles.json");
 const { execFileSync } = require("child_process");
 
 // --- CONFIGURATION ---
