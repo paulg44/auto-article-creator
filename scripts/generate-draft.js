@@ -9,6 +9,15 @@ const FRESHDESK_API_KEY = process.env.FRESHDESK_API_KEY;
 const FRESHDESK_FOLDER_ID = "205000025212"; // <--- CHECK YOUR FOLDER ID
 const AI_API_KEY = process.env.AI_API_KEY;
 
+const IGNORED_FILES = [
+  "package-lock.json",
+  "yarn.lock",
+  "README.md",
+  "docs/",
+  "tests/",
+  "test-data.md",
+];
+
 // --- SAFETY: TIMEOUT FUNCTION ---
 // This prevents the script from hanging forever
 const fetchWithTimeout = async (url, options, timeout = 15000) => {
