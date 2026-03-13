@@ -228,6 +228,11 @@ const clinicHours = {
   liverpool: { open: '09:00', close: '17:00' },
   leeds: { open: '08:30', close: '17:30' },
   sheffield: { open: '09:00', close: '16:00' },
+  birmingham: { open: '08:00', close: '18:00' },
+  bristol: { open: '08:30', close: '17:00' },
+  newcastle: { open: '09:00', close: '17:30' },
+  nottingham: { open: '08:00', close: '18:00' },
+  cardiff: { open: '08:30', close: '17:00' },
 };
 
 clinicSelect.addEventListener('change', () => {
