@@ -25,10 +25,11 @@
 
   <h1>Book an Appointment</h1>
   <p>Select your preferred clinic, appointment type, and available time slot below.</p>
+  <p>More information</p>
 
   <form id="appointmentForm" novalidate>
 
-    <div class="section-title">Your Details</div>
+    <div class="section-title">Your Details to complete</div>
 
     <div class="form-group">
       <label for="fullName">Full Name *</label>
@@ -63,6 +64,8 @@
         <option value="birmingham">Birmingham East</option>
         <option value="bristol">Bristol Central</option>
         <option value="newcastle">Newcastle North</option>
+        <option value="nottingham">Nottingham South</option>
+        <option value="cardiff">Cardiff Central</option>
       </select>
     </div>
 
@@ -110,6 +113,11 @@
       <textarea id="notes" name="notes" placeholder="Any additional information for your audiologist..."></textarea>
     </div>
 
+    <div class="section-title">Additional Information</div>
+    <label for="hearLinkSource">How did you hear about HearLink?</label>
+    <textarea id="hearLinkSource" name="hearLinkSource" placeholder="Please let us know how you found out about HearLink..."></textarea>
+    </div>
+
     <div class="form-group">
       <label>
         <input type="checkbox" id="newPatient" name="newPatient" />
@@ -130,7 +138,7 @@
       Your appointment request has been received. You will receive a confirmation email within 2 working hours.
     </div>
     <div class="error-message" id="errorMsg">
-      Something went wrong. Please try again or call your clinic directly.
+      Something went wrong. Please try again or call your clinic directly. 
     </div>
 
   </form>
