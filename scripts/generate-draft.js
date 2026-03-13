@@ -20,6 +20,8 @@ const IGNORED_FILES = [
 const articleData = JSON.parse(readFileSync("articles.json", "utf8"));
 const articleExamples = articleData.articles;
 
+console.log(...articleExamples.map((a) => ["\n--- ARTICLE EXAMPLE ---\n", a.title, a.content]));
+
 const getReadmeContext = () => {
   try {
     const readmePath = path.join(__dirname, "../../README.md");
@@ -59,8 +61,6 @@ async function run() {
     const prTitle = eventData.pull_request.title;
     const baseSha = eventData.pull_request.base.sha;
     const mergeSha = eventData.pull_request.head.sha;
-
-    console.log('Event data:', JSON.stringify(eventData.pull_request, null, 2));
 
     console.log('Reading code changes from PR...');
 
