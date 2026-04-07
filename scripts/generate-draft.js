@@ -136,7 +136,7 @@ If information is missing, ask concise clarification questions before writing.`,
             },
             {
               role: "user",
-            content: `Using the HearLink documentation rules provided, and by reviewing these articles so you know how they should written: ${JSON.stringify(articleExamples)}. Write a full Help Centre article based ONLY on the PR description notes provided.
+            content: `Using the HearLink documentation rules provided, and by reviewing these articles, including a draft article so you know how they should written: ${JSON.stringify(articleExamples)}. Write a full Help Centre article based ONLY on the PR description notes provided.
 Only use the information provided in ${prBody}
 Do not assume additional functionality.`,
             },
