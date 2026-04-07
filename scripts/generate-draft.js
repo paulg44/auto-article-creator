@@ -22,16 +22,16 @@ const articleExamples = articleData.articles;
 
 console.log(...articleExamples.map((a) => ["\n--- ARTICLE EXAMPLE ---\n", a.title, a.content]));
 
-const getReadmeContext = () => {
-  try {
-    const readmePath = path.join(__dirname, "../../README.md");
-    const readmeContent = readFileSync(readmePath, 'utf8');
-    return readmeContent;
-  } catch (error) {
-    console.warn("⚠️ Could not read README.md file:", error.message);
-    return "";
-  }
-} 
+// const getReadmeContext = () => {
+//   try {
+//     const readmePath = path.join(__dirname, "../../README.md");
+//     const readmeContent = readFileSync(readmePath, 'utf8');
+//     return readmeContent;
+//   } catch (error) {
+//     console.warn("⚠️ Could not read README.md file:", error.message);
+//     return "";
+//   }
+// } 
 
 // --- SAFETY: TIMEOUT FUNCTION ---
 // This prevents the script from hanging forever
