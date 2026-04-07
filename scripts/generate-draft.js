@@ -19,7 +19,7 @@ const IGNORED_FILES = [
 
 const articleData = JSON.parse(readFileSync("articles.json", "utf8"));
 const articleExamples = articleData.articles;
-const styleGuide = articleExamples.filter(a => a.title != "HearLink Article Style Guide")
+const styleGuide = articleExamples.filter(a => a.title === "HearLink Article Style Guide")
 
 console.log(...articleExamples.map((a) => ["\n--- ARTICLE EXAMPLE ---\n", a.title, a.content]));
 
