@@ -131,9 +131,8 @@ If information is missing, ask concise clarification questions before writing.`,
             },
             {
               role: "user",
-            content: `Using the HearLink documentation rules provided, the information in ${readmeContext} and by reviewing these articles so you know how they should written: ${articleExamples}. Write a full Help Centre article based ONLY on the PR description notes provided.
-
-Only use the information provided in ${rawDiff}.
+            content: `Using the HearLink documentation rules provided, and by reviewing these articles so you know how they should written: ${articleExamples}. Write a full Help Centre article based ONLY on the PR description notes provided.
+ß
 Do not assume additional functionality.`,
             },
           ],
