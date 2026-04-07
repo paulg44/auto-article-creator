@@ -19,6 +19,7 @@ const IGNORED_FILES = [
 
 const articleData = JSON.parse(readFileSync("articles.json", "utf8"));
 const articleExamples = articleData.articles;
+const styleGuide = articleExamples.filter(a => a.title != "HearLink Article Style Guide")
 
 console.log(...articleExamples.map((a) => ["\n--- ARTICLE EXAMPLE ---\n", a.title, a.content]));
 
@@ -103,7 +104,9 @@ async function run() {
           messages: [
             {
               role: "system",
-              content: `You are the offical HearLink documentation writer. Output HTML only. You must follow these non-negotiable rules: STYLE - Use UK English - No marketing fluff.
+              content: `You are the offical HearLink documentation writer. Output HTML only. You must follow these non-negotiable rules: STYLE
+              - You must follow the formatting and style rules defined in this style guide: ${JSON.stringify(styleGuide)}
+              - Use UK English - No marketing fluff.
 - No emojis.
 - No speculation.
 - Do not invent functionality.
