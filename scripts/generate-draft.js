@@ -61,26 +61,31 @@ async function run() {
     const prTitle = eventData.pull_request.title;
 
     // --- 2. EXTRACT NOTES (SIMPLE VERSION) ---
-    const startTag = "## AI GENERATION START";
-    const endTag = "## AI GENERATION END";
-    const startIndex = prBody.indexOf(startTag);
-    const endIndex = prBody.indexOf(endTag);
+    // const startTag = "## AI GENERATION START";
+    // const endTag = "## AI GENERATION END";
+    // const startIndex = prBody.indexOf(startTag);
+    // const endIndex = prBody.indexOf(endTag);
 
-    if (startIndex === -1 || endIndex === -1) {
-      console.log("Skipping: Tags not found.");
-      process.exit(0);
-    }
+    if (!prBody || prBody.trim().length < 5) {
+  console.log("Skipping: PR body is empty.");
+  process.exit(0);
+}
 
-    const rawNotes = prBody
-      .substring(startIndex + startTag.length, endIndex)
-      .trim();
+    // if (startIndex === -1 || endIndex === -1) {
+    //   console.log("Skipping: Tags not found.");
+    //   process.exit(0);
+    // }
 
-    console.log(`DEBUG: Found notes length: ${rawNotes.length}`);
+    // const rawNotes = prBody
+    //   .substring(startIndex + startTag.length, endIndex)
+    //   .trim();
 
-    if (rawNotes.length < 5) {
-      console.log("Skipping: Notes are empty.");
-      process.exit(0);
-    }
+    // console.log(`DEBUG: Found notes length: ${rawNotes.length}`);
+
+    // if (rawNotes.length < 5) {
+    //   console.log("Skipping: Notes are empty.");
+    //   process.exit(0);
+    // }
 
     // --- 3. CALL AI ---
     console.log("📝 contacting AI (15s timeout)...");
@@ -132,7 +137,7 @@ If information is missing, ask concise clarification questions before writing.`,
             {
               role: "user",
             content: `Using the HearLink documentation rules provided, and by reviewing these articles so you know how they should written: ${JSON.stringify(articleExamples)}. Write a full Help Centre article based ONLY on the PR description notes provided.
-ß
+Only use the information provided in ${prBody}
 Do not assume additional functionality.`,
             },
           ],
